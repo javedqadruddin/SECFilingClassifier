@@ -1,6 +1,16 @@
 from keras.preprocessing.text import text_to_word_sequence
 import os
 
+# generates batches of training data infinitely of given size (though last batch before sequence repeats may be smaller)
+def gen_batches(batch_size, x_vals, y_vals):
+    start = 0
+    while True:
+        yield (x_vals[start:start+batch_size], y_vals[start:start+batch_size])
+        if(start + batch_size < len(x_vals)):
+            start += batch_size
+        else:
+            start = 0
+
 
 # keras NLP tools filter out certain tokens by default
 # this function replaces the default with a smaller set of things to filter out
